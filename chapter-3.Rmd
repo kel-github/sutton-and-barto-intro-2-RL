@@ -1,0 +1,67 @@
+---
+title: "chapter-3"
+output: html_document
+date: "2023-10-10"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Solutions to some of the exercises in Chapter 3
+
+<br>
+
+3.8: Suppose $\gamma$ = 0.5, and the following sequence of rewards is received $R_{1}$ = -1, $R_{2}$ = 2, $R_{3}$ = 6, $R_{4}$ = 3, & $R_{5}$ = 2, with T=5. What are $G_{0}$, $G_{1}$, ..., $G_{5}$? 
+<br>
+
+```{r}
+T = 5
+Gs <- rep(0,T+1) # T+1 because we're also estimating G0
+Rs <- c(-1, 2, 6, 3, 2)
+gamma = 0.5
+
+# Gs[5] = 0 because G_{T} = 0
+for (i in seq(T, 1, -1)){ # go from 4 to 0
+Gs[i] = Rs[i] + (gamma*Gs[i+1]) 
+}
+
+Gs
+
+```
+<br>
+
+Take home is that all of the future is packaged into the estimate for the next time-step.
+
+<br>
+
+3.9 Suppose $\gamma$ = 0.9, and the reward sequence is $R_{1}$ = 2, followed by an infinite sequence of 7s. What are $G_{1}$ and $G_{0}$?
+
+Here we can use formula 3.8:
+
+$G_{t} = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... = \displaystyle\sum_{k=0} ^{\infty} \gamma^k R_{t+k+1}$
+
+Instead we have:
+
+$G_{1} = 7 + \gamma 7 + \gamma^2 7 + ... = 7(\displaystyle\sum_{k=0} ^{\infty} \gamma^k) = 7 \frac{1}{1-\gamma}$
+
+and
+
+$G_{0} = 2 + \gamma G_{1}$
+
+```{r}
+
+gamma = 0.9
+R2 = 7
+
+G1 = 7 * (1/(1-gamma))  
+printf(paste("G1 =", G1, sep=" "))
+
+G0 = 2 + gamma*G1
+print(paste("G0 =", G0, sep=" "))
+
+```
+
+
+
