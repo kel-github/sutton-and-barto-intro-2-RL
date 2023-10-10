@@ -393,8 +393,8 @@ R_{t+k+1}\)</span></p>
 R2 = 7
 
 G1 = 7 * (1/(1-gamma))  
-sprintf(paste(&quot;G1 =&quot;, G1, sep=&quot; &quot;))</code></pre>
-<pre><code>## [1] &quot;G1 = 70&quot;</code></pre>
+print(paste(&quot;G1 =&quot;, R2 + G1, sep=&quot; &quot;))</code></pre>
+<pre><code>## [1] &quot;G1 = 77&quot;</code></pre>
 <pre class="r"><code>G0 = 2 + gamma*G1
 print(paste(&quot;G0 =&quot;, G0, sep=&quot; &quot;))</code></pre>
 <pre><code>## [1] &quot;G0 = 65&quot;</code></pre>
