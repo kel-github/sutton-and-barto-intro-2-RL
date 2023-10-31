@@ -64,4 +64,24 @@ print(paste("G0 =", G0, sep=" "))
 ```
 
 
+Exercise 3.23: Give the Bellman equation for $q_*$ for the recycling robot.
 
+The Bellman equation for $q_*$ is: 
+$q_*(s,a) = \sum_{s',r} p(s',r|s,a) [r + \gamma max_a' q_*(s',a')]$
+
+For the robot:
+
+_If s is high, and a is search_
+We need to take the probability of going from high search to another high state, and multiply that by the next reward + the discounted value of the max of the two possible actions from the new high state...
+
+plus the probability of going from high to low by the immediate reward, plus the discounted maximum value of the ways out of the low state (l-s, l-w, l-r) 
+
+$q_*(h,s) = \alpha [r_s + \gamma max_a' (q_*(h',s'), q_*(h',w'))] + (1-\alpha) [r_s + \gamma max_a' (q_*(l',s'), q_*(l',w'), q_*(l',r'))]$
+
+_If s is high and a is wait_
+
+$q_*(h,w) = 1* [r_w + \gamma max_a' (q_*(h',s'), q_*(h',w'))]$
+
+Exercise 3.29: Rewrite the four Bellman equations for the four value functions ($v_\pi$, $v_*$, $q_\pi$ and $q_*$) in terms of the three argument function p (3.4) and the two-argument function r (3.5).
+
+[See](https://github.com/LyWangPX/Reinforcement-Learning-2nd-Edition-by-Sutton-Exercise-Solutions/blob/master/Chapter%203/Solutions_to_Reinforcement_Learning_by_Sutton_Chapter_3_rx1.pdf) 
