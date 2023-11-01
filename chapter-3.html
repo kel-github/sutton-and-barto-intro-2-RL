@@ -398,6 +398,116 @@ print(paste(&quot;G1 =&quot;, R2 + G1, sep=&quot; &quot;))</code></pre>
 <pre class="r"><code>G0 = 2 + gamma*G1
 print(paste(&quot;G0 =&quot;, G0, sep=&quot; &quot;))</code></pre>
 <pre><code>## [1] &quot;G0 = 65&quot;</code></pre>
+<p><br></p>
+<p><em>Exercise 3.11: If the current state is <span class="math inline">\(S_t\)</span>, and actions are selected according
+to a stochastic policy <span class="math inline">\(\pi\)</span>, then
+what is the expectation of <span class="math inline">\(R_{t+1}\)</span>
+in terms of <span class="math inline">\(\pi\)</span> and the four
+argument function <span class="math inline">\(p\)</span>?</em></p>
+<p><br></p>
+<p><span class="math inline">\(E_{\pi} [R_{t+1}|s_t] = \sum_a \pi(a|s)
+\sum_{s,r} p(s&#39;,r|s,a) [r]\)</span></p>
+<p><br></p>
+<p><em>Exercise 3.12: Give an equation for <span class="math inline">\(v_{\pi}\)</span> in terms of <span class="math inline">\(q_{\pi}\)</span> and <span class="math inline">\(\pi\)</span>.</em></p>
+<p><br></p>
+<p>The state value function is equal to the sum of expected values for
+each possible action that can be taken from that state - i.e. the value
+of each state-action pairing.</p>
+<p><br></p>
+<p><span class="math inline">\(v_{\pi} = \sum_a \pi(a|s)
+q_{\pi}(s,a)\)</span></p>
+<p><br></p>
+<p><em>Exercise 3.13: Give an equation for <span class="math inline">\(q_{\pi}\)</span> in terms of <span class="math inline">\(v_{\pi}\)</span> and the four-argument <span class="math inline">\(p\)</span></em></p>
+<p><br></p>
+<p>The value of each state and action pair is equal to the expected
+value of the next state - i.e. the probability of getting to the next
+state, given you take that action, multiplied by the next reward and the
+discounted value of the state that you are reaching:</p>
+<p><br></p>
+<p><span class="math inline">\(q_{\pi} = p(s&#39;,r|s,a) [r + \gamma
+v_{pi}(s_t + 1)]\)</span></p>
+<p><br></p>
+<p><em>Exercise 3.15: Prove using (3.8) that adding a constant <span class="math inline">\(c\)</span> to all the rewards adds a constant,
+<span class="math inline">\(v_c\)</span> to the value of all states, and
+this does not affect the relative values of any states under any
+policies.</em></p>
+<p><br></p>
+<p>Here we have to define <span class="math inline">\(G_t\)</span> with
+the added constant, and solve the infinite series in the same way as
+prior.</p>
+<p><br></p>
+<p>Specifically:</p>
+<p><br></p>
+<p><span class="math inline">\(G_t = \sum_{k=0}^{inf} \gamma^k
+[R_{t+k+1} + c]\)</span></p>
+<p>which will become:</p>
+<p><span class="math inline">\(G_t = \frac{R_{t+k+1}}{1-\gamma} +
+\frac{c}{1-\gamma}\)</span></p>
+<p><br></p>
+<p>Exercise 3.16 makes me think of learning traps.</p>
+<p><br></p>
+<p><em>Exercise 3.17: What is the Bellman equation for action values,
+that is for <span class="math inline">\(q_{\pi}\)</span>?</em></p>
+<p><br></p>
+<p>The Bellman equation for the state, action value, given state S, is
+equal to the expected value of the next reward, plus the average of the
+discounted next possible rewards, given you move to state s’</p>
+<p><br></p>
+<p><span class="math inline">\(q_{\pi} = \sum_{s,r} p(s&#39;,r | s, a)[r
++ \gamma q_{\pi}(s&#39;,a&#39;)]\)</span></p>
+<p><br></p>
+<p><em>Exercise 3.22: Consider the MDP shown. What is the optimal policy
+if <span class="math inline">\(\gamma\)</span> = 0, 0.9 or 0.5?</em></p>
+<p>If 0, then left is the best policy. If 0.9, then right. If 0.5, then
+equal.</p>
+<p><br></p>
+<p><em>Exercise 3.23: Give the Bellman equation for <span class="math inline">\(q_*\)</span> for the recycling robot.</em></p>
+<p><br></p>
+<p>The Bellman equation for <span class="math inline">\(q_*\)</span> is:
+<span class="math inline">\(q_*(s,a) = \sum_{s&#39;,r} p(s&#39;,r|s,a)
+[r + \gamma max_a&#39; q_*(s&#39;,a&#39;)]\)</span></p>
+<p><br></p>
+<p>For the robot:</p>
+<p><em>If s is high, and a is search</em> We need to take the
+probability of going from high search to another high state, and
+multiply that by the next reward + the discounted value of the max of
+the two possible actions from the new high state…</p>
+<p>plus the probability of going from high to low by the immediate
+reward, plus the discounted maximum value of the ways out of the low
+state (l-s, l-w, l-r)</p>
+<p><br></p>
+<p><span class="math inline">\(q_*(h,s) = \alpha [r_s + \gamma
+max_a&#39; (q_*(h&#39;,s&#39;), q_*(h&#39;,w&#39;))] + (1-\alpha) [r_s +
+\gamma max_a&#39; (q_*(l&#39;,s&#39;), q_*(l&#39;,w&#39;),
+q_*(l&#39;,r&#39;))]\)</span></p>
+<p><br></p>
+<p><em>If s is high and a is wait</em></p>
+<p><span class="math inline">\(q_*(h,w) = 1* [r_w + \gamma max_a&#39;
+(q_*(h&#39;,s&#39;), q_*(h&#39;,w&#39;))]\)</span> <br></p>
+<p><em>Exercise 3.29: Rewrite the four Bellman equations for the four
+value functions (<span class="math inline">\(v_\pi\)</span>, <span class="math inline">\(v_*\)</span>, <span class="math inline">\(q_\pi\)</span> and <span class="math inline">\(q_*\)</span>) in terms of the three argument
+function p (3.4) and the two-argument function r (3.5).</em></p>
+<p><br></p>
+<p>Three argument function = p(s’|s,a) Two argument function = r(s,
+a)</p>
+<p><br></p>
+<p><span class="math inline">\(v_{\pi}(s) = E_{\pi} [G_{t} | S_{t} =
+s]\)</span><br />
+<span class="math inline">\(v_{\pi}(s) = \sum_a \pi(s,a) [r(s, a) +
+\gamma p(s&#39;|s,a) v_{\pi}(s&#39;)]\)</span></p>
+<p><br></p>
+<p>For <span class="math inline">\(q_{\pi}\)</span> we’re after the
+expected return, given state s and action a, which is equivalent to
+<span class="math inline">\(R_{t+1}\)</span> plus the discounted
+expected reward available for each action that can be taken in the next
+state:</p>
+<p><br></p>
+<p><span class="math inline">\(q_{\pi} = E_{\pi} [G_{t} | S_{t} = s,
+A_{t} = a]\)</span> <span class="math inline">\(q_{pi} = r(s,a) + \gamma
+\sum_{s&#39;,a&#39;} p(s&#39;&#39;|s&#39;,a&#39;)
+r(s&#39;,a&#39;)\)</span> (unsure)</p>
+<p><a href="https://github.com/LyWangPX/Reinforcement-Learning-2nd-Edition-by-Sutton-Exercise-Solutions/blob/master/Chapter%203/Solutions_to_Reinforcement_Learning_by_Sutton_Chapter_3_rx1.pdf">See
+here</a> for further solutions</p>
 </div>
 
 

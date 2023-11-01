@@ -63,11 +63,92 @@ print(paste("G0 =", G0, sep=" "))
 
 ```
 
+<br> 
 
-Exercise 3.23: Give the Bellman equation for $q_*$ for the recycling robot.
+_Exercise 3.11: If the current state is $S_t$, and actions are selected according to a stochastic policy $\pi$, then what is the expectation of $R_{t+1}$ in terms of $\pi$ and the four argument function $p$?_
+
+<br>
+
+$E_{\pi} [R_{t+1}|s_t] = \sum_a \pi(a|s) \sum_{s,r} p(s',r|s,a) [r]$
+
+<br>
+
+_Exercise 3.12: Give an equation for $v_{\pi}$ in terms of $q_{\pi}$ and $\pi$._
+
+<br>
+
+The state value function is equal to the sum of expected values for each possible action that can be taken from that state - i.e. the value of each state-action pairing.
+
+<br>
+
+$v_{\pi} = \sum_a \pi(a|s) q_{\pi}(s,a)$
+
+<br>
+
+_Exercise 3.13: Give an equation for $q_{\pi}$ in terms of $v_{\pi}$ and the four-argument $p$_
+
+<br>
+
+The value of each state and action pair is equal to the expected value of the next state - i.e. the probability of getting to the next state, given you take that action, multiplied by the next reward and the discounted value of the state that you are reaching:
+
+<br>
+
+$q_{\pi} = p(s',r|s,a) [r + \gamma v_{pi}(s_t + 1)]$
+
+<br>
+
+_Exercise 3.15: Prove using (3.8) that adding a constant $c$ to all the rewards adds a constant, $v_c$ to the value of all states, and this does not affect the relative values of any states under any policies._
+
+<br>
+
+Here we have to define $G_t$ with the added constant, and solve the infinite series in the same way as prior.
+
+<br>
+
+Specifically:
+
+<br>
+
+$G_t = \sum_{k=0}^{inf} \gamma^k [R_{t+k+1} + c]$  
+
+which will become:
+
+$G_t = \frac{R_{t+k+1}}{1-\gamma} + \frac{c}{1-\gamma}$
+
+<br>
+
+Exercise 3.16 makes me think of learning traps.
+
+<br>
+
+_Exercise 3.17: What is the Bellman equation for action values, that is for $q_{\pi}$?_
+
+<br>
+
+The Bellman equation for the state, action value, given state S, is equal to the expected value of the next reward, plus the average of the discounted next possible rewards, given you move to state s'
+
+<br>
+
+$q_{\pi} = \sum_{s,r} p(s',r | s, a)[r + \gamma q_{\pi}(s',a')]$
+
+<br>
+
+_Exercise 3.22: Consider the MDP shown. What is the optimal policy if $\gamma$ = 0, 0.9 or 0.5?_
+
+If 0, then left is the best policy.
+If 0.9, then right.
+If 0.5, then equal.
+
+<br>
+
+_Exercise 3.23: Give the Bellman equation for $q_*$ for the recycling robot._
+
+<br>
 
 The Bellman equation for $q_*$ is: 
 $q_*(s,a) = \sum_{s',r} p(s',r|s,a) [r + \gamma max_a' q_*(s',a')]$
+
+<br>
 
 For the robot:
 
@@ -76,12 +157,36 @@ We need to take the probability of going from high search to another high state,
 
 plus the probability of going from high to low by the immediate reward, plus the discounted maximum value of the ways out of the low state (l-s, l-w, l-r) 
 
+<br>
+
 $q_*(h,s) = \alpha [r_s + \gamma max_a' (q_*(h',s'), q_*(h',w'))] + (1-\alpha) [r_s + \gamma max_a' (q_*(l',s'), q_*(l',w'), q_*(l',r'))]$
+
+<br>
 
 _If s is high and a is wait_
 
 $q_*(h,w) = 1* [r_w + \gamma max_a' (q_*(h',s'), q_*(h',w'))]$
+<br>
 
-Exercise 3.29: Rewrite the four Bellman equations for the four value functions ($v_\pi$, $v_*$, $q_\pi$ and $q_*$) in terms of the three argument function p (3.4) and the two-argument function r (3.5).
+_Exercise 3.29: Rewrite the four Bellman equations for the four value functions ($v_\pi$, $v_*$, $q_\pi$ and $q_*$) in terms of the three argument function p (3.4) and the two-argument function r (3.5)._
 
-[See](https://github.com/LyWangPX/Reinforcement-Learning-2nd-Edition-by-Sutton-Exercise-Solutions/blob/master/Chapter%203/Solutions_to_Reinforcement_Learning_by_Sutton_Chapter_3_rx1.pdf) 
+<br>
+
+Three argument function = p(s'|s,a)
+Two argument function = r(s, a)
+
+<br>
+
+$v_{\pi}(s) = E_{\pi} [G_{t} | S_{t} = s]$  
+$v_{\pi}(s) = \sum_a \pi(s,a) [r(s, a) + \gamma p(s'|s,a) v_{\pi}(s')]$
+
+<br>
+
+For $q_{\pi}$ we're after the expected return, given state s and action a, which is equivalent to $R_{t+1}$ plus the discounted expected reward available for each action that can be taken in the next state:
+
+<br>
+
+$q_{\pi} = E_{\pi} [G_{t} | S_{t} = s, A_{t} = a]$
+$q_{pi} = r(s,a) + \gamma \sum_{s',a'}  p(s''|s',a')  r(s',a')$ (unsure)
+
+[See here](https://github.com/LyWangPX/Reinforcement-Learning-2nd-Edition-by-Sutton-Exercise-Solutions/blob/master/Chapter%203/Solutions_to_Reinforcement_Learning_by_Sutton_Chapter_3_rx1.pdf) for further solutions
