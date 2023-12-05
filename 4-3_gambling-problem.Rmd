@@ -1,0 +1,193 @@
+---
+title: "4-3_gamblers-problem"
+author: "Kelly"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+## Example 4.3: Gambler's Problem
+
+Exercise 4.9: Implement value iteration for the gambler's problem and solve it for $p_h$ = 0.25 and $p_h$ = 0.55.
+
+In programming, you may find it convenient to introduce two dummy states corresponding to termination with capital of 0 and 100, giving them values of 0 and 1 respectively. Show your results graphically, as in Fig 4.3. Are your results stable as $\theta$ -\> 0?
+
+## The value iteration algorithm
+
+The value updating algorithm is:
+
+1.  define $\theta$ (a small threshold for error in estimate)
+
+2.  Initialise $V(s)$ for all s from the set of S, arbitrarily, except that $V(terminal)$ = 0.
+
+3.  Loop:
+
+    $\Delta$ \<- 0
+
+    Loop for each s of S:
+
+    $v <- V(s)$
+
+    $V(s) <- max_a \Sigma_{s',r} p(s',r|s,a) [r + \gamma V(s')]$
+
+    $\Delta <- max(\Delta, |v - V(s)|)$
+
+until $\Delta$ \< \$\Theta\$
+
+Output a deterministic policy, $\pi$ pro $\pi_*$, such that:
+
+$\pi_{s} = argmax_a \Sigma_{s',r} p(s', r | s, a) [r + \gamma V(s')]$
+
+## Setting up the infrastructure
+
+The formula for value learning is:
+
+$v_*(s) = max_{a} \Sigma_{s',r} p(s',r|s,a) [r + \gamma v_*(s')]$ (eq 4.1)
+
+In the case of the gambler's problem, we have 2 possible reward values, 0 or 1. 1 is only attained if s' == 100
+
+There is no gamma discounting because this is an episodic task.
+
+```{r}
+# steps 1 & 2: define tau and initialise V(s) arbitrarily
+theta = 1e-99
+Ns <- 100-1 # number of possible states
+tgt <- 100 # target state to get to
+lose <- 0 # losing state 
+p <- 0.4 # probability of getting heads
+Vs <- rep(0, times=Ns+2) # adding 0 and terminal states
+Vs[tgt+1] <- 1
+states <- seq(1,Ns,1) # set up the states the gambler can find themselves in
+actions <- states
+policy <- rep(0,Ns) # this will become a vector of the action that yields maximum value
+```
+
+Now to perform the algorithm I need a functions that will:
+
+1.  identify the range of actions available, given a state, and
+2.  compute the max expected reward value given those states and actions
+
+```{r}
+get_actions <- function(s,tgt){
+  # s: current state
+  # tgt: winning state
+  seq(1,min(s, tgt-s),1) # I've taken 0 out as a possible stake because it appears to not be in the lisp code nor in the figures
+}
+
+value_estimate <- function(s, a, p, Vs, tgt){
+  # get the expected value of the state (s), action (a) pairing
+  # Kwargs:
+  # -- s [int, 1] - value denoting what state you are in
+  # -- a [int, 1] - which action/stake are you performing?
+  # -- p [%f, 1] - probability of heads in coin toss
+  # -- Vs [vec, 1, nStates] - vector of state values, to retrieve value of
+  #             next state, given action
+  # -- tgt [int, 1] - target state
+  
+  # what are the two states you can reach, given s and a?
+  s_dashes = c(s-a, s+a) # lose v win
+  rs = rep(0, length(s_dashes))
+###  rs[s_dashes == tgt] <- 1 - actually, don't need this line, because you get 0 for making the transition, and only get a 1 for reaching V(s) == 100
+  # keeping this the same to match the equation, although effectively, r can be dropped cos its
+  # always zeros
+  # get r + future value
+  values <- rs + Vs[s_dashes+1] # +1 to idx-ing because we added the 0 and 100 states
+  names(values) <- c("lose", "win")
+  est <- (1-p)*values["lose"] + p*values["win"]
+  est
+}
+
+value_update <- function(s, p, tgt, Vs){
+  # given that I have entered a state, perform the value update function
+  # i.e. V(s) <- max_a sum_s',r etc...
+  
+  # now that I have entered a state, what are the actions I can take in this state?
+  as <- get_actions(s,tgt)
+  # for each s,a pairing, compute the expected value of that state action pairing
+  value_ests <- unlist(lapply(as, value_estimate, s=s, p=p, Vs=Vs, tgt=tgt))
+  names(value_ests) <- paste(as)
+  
+  # now take the max value, taking 
+  max_a <- min(value_ests[value_ests == max(value_ests)])
+  max_a # returns the value estimate, named by the stake
+}
+
+  
+```
+
+## Making it go
+
+Now I have the above functions I am ready to implement a function that runs the algorithm and produces some plots:
+
+```{r}
+
+run_value_iteration <- function(theta, states, Vs, p, tgt, policy){
+  # run the value iteration algorithm and produce fig 4.3
+  # -- theta [%f, 1] convergence criteria
+  # -- states [int, 1, nstates] the states the agent can visit
+  # -- Vs [int, 1, nstates+2] the values of the states the agent can get to (includes 0 and 1)
+  # -- p [f, 1] probability of heads
+  # -- tgt [int, 1] winning state
+  # -- policy [int, 1, nstates] outputs a policy of most valuable arguments
+  # -- break_ties [str, max, min or rand] method to break ties among equally valued options
+  
+  delta_crit = FALSE # this means that delta is yet to reach less than theta
+  while (!delta_crit){ # while delta is larger than theta
+    
+    delta <- 0 # set delta to zero
+    for (istate in states){ # cycle through states
+      istate_idx = istate + 1 # +1 because we added states 0 and 100 to the Vs vector
+      v <- Vs[istate_idx] # 
+      update <- value_update(istate, p, tgt, Vs)
+      Vs[istate_idx] <- update
+      # now get the max prediction error
+      delta <- max(delta, abs(v - Vs[istate_idx]))
+    } # end states loop
+    if (delta < theta) delta_crit = TRUE
+  } # end delta_crit test
+  
+  # now get the policy
+  for (istate in states){
+    # work out possible actions given the state
+    as <- get_actions(istate,tgt)
+    # now work out s', given win or loss
+    loss <- istate - as 
+    wins <- istate + as
+    # get the expected value of each s'
+    stake_values <- mapply(function(x,y,p) (1-p)*Vs[x+1] + p*Vs[y+1], loss, wins, MoreArgs = list(p=p))
+    #print(which(stake_values == max(stake_values)))
+    policy[istate] = which(stake_values == max(stake_values))[1]
+  }
+  
+  par(mfrow = c(2,1))
+  plot(x = 1:99, y=Vs[1:99+1], type="l", col="blue", xlab="Capital", ylab = "Value Estimates", ylim=c(0,1))
+  plot(x = 1:99, y=policy, type="l", col="green", xlab="Capital", ylab = "Value Estimates", ylim=c(0,50))
+}
+
+```
+
+## Key questions
+
+1.  The first is what the shape of the optimal policy functions may be like, depending on how you break ties for equally values actions. Below are the results for when you break ties taking the first of the max valued options
+
+```{r}
+run_value_iteration(theta, states, Vs, p, tgt, policy)
+
+```
+
+2.  Solve the problem for $p_h = 0.25$ and $p_h = 0.55$
+
+```{r}
+
+run_value_iteration(theta, states, Vs, p = 0.25, tgt, policy)
+
+```
+
+```{r}
+
+run_value_iteration(theta, states, Vs, p = 0.55, tgt, policy)
+
+```

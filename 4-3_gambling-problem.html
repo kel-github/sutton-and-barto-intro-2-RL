@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kelly">
+
+<title>4-3_gamblers-problem</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="4-3_gambling-problem_files/libs/clipboard/clipboard.min.js"></script>
+<script src="4-3_gambling-problem_files/libs/quarto-html/quarto.js"></script>
+<script src="4-3_gambling-problem_files/libs/quarto-html/popper.min.js"></script>
+<script src="4-3_gambling-problem_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="4-3_gambling-problem_files/libs/quarto-html/anchor.min.js"></script>
+<link href="4-3_gambling-problem_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="4-3_gambling-problem_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="4-3_gambling-problem_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="4-3_gambling-problem_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="4-3_gambling-problem_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">4-3_gamblers-problem</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kelly </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<section id="example-4.3-gamblers-problem" class="level2">
+<h2 class="anchored" data-anchor-id="example-4.3-gamblers-problem">Example 4.3: Gambler’s Problem</h2>
+<p>Exercise 4.9: Implement value iteration for the gambler’s problem and solve it for <span class="math inline">\(p_h\)</span> = 0.25 and <span class="math inline">\(p_h\)</span> = 0.55.</p>
+<p>In programming, you may find it convenient to introduce two dummy states corresponding to termination with capital of 0 and 100, giving them values of 0 and 1 respectively. Show your results graphically, as in Fig 4.3. Are your results stable as <span class="math inline">\(\theta\)</span> -&gt; 0?</p>
+</section>
+<section id="the-value-iteration-algorithm" class="level2">
+<h2 class="anchored" data-anchor-id="the-value-iteration-algorithm">The value iteration algorithm</h2>
+<p>The value updating algorithm is:</p>
+<ol type="1">
+<li><p>define <span class="math inline">\(\theta\)</span> (a small threshold for error in estimate)</p></li>
+<li><p>Initialise <span class="math inline">\(V(s)\)</span> for all s from the set of S, arbitrarily, except that <span class="math inline">\(V(terminal)\)</span> = 0.</p></li>
+<li><p>Loop:</p>
+<p><span class="math inline">\(\Delta\)</span> &lt;- 0</p>
+<p>Loop for each s of S:</p>
+<p><span class="math inline">\(v &lt;- V(s)\)</span></p>
+<p><span class="math inline">\(V(s) &lt;- max_a \Sigma_{s',r} p(s',r|s,a) [r + \gamma V(s')]\)</span></p>
+<p><span class="math inline">\(\Delta &lt;- max(\Delta, |v - V(s)|)\)</span></p></li>
+</ol>
+<p>until <span class="math inline">\(\Delta\)</span> &lt; $$</p>
+<p>Output a deterministic policy, <span class="math inline">\(\pi\)</span> pro <span class="math inline">\(\pi_*\)</span>, such that:</p>
+<p><span class="math inline">\(\pi_{s} = argmax_a \Sigma_{s',r} p(s', r | s, a) [r + \gamma V(s')]\)</span></p>
+</section>
+<section id="setting-up-the-infrastructure" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-the-infrastructure">Setting up the infrastructure</h2>
+<p>The formula for value learning is:</p>
+<p><span class="math inline">\(v_*(s) = max_{a} \Sigma_{s',r} p(s',r|s,a) [r + \gamma v_*(s')]\)</span> (eq 4.1)</p>
+<p>In the case of the gambler’s problem, we have 2 possible reward values, 0 or 1. 1 is only attained if s’ == 100</p>
+<p>There is no gamma discounting because this is an episodic task.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># steps 1 &amp; 2: define tau and initialise V(s) arbitrarily</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> <span class="fl">1e-99</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Ns <span class="ot">&lt;-</span> <span class="dv">100-1</span> <span class="co"># number of possible states</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>tgt <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># target state to get to</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>lose <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># losing state </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.4</span> <span class="co"># probability of getting heads</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>Vs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="at">times=</span>Ns<span class="sc">+</span><span class="dv">2</span>) <span class="co"># adding 0 and terminal states</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>Vs[tgt<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>,Ns,<span class="dv">1</span>) <span class="co"># set up the states the gambler can find themselves in</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>actions <span class="ot">&lt;-</span> states</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>policy <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,Ns) <span class="co"># this will become a vector of the action that yields maximum value</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now to perform the algorithm I need a functions that will:</p>
+<ol type="1">
+<li>identify the range of actions available, given a state, and</li>
+<li>compute the max expected reward value given those states and actions</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>get_actions <span class="ot">&lt;-</span> <span class="cf">function</span>(s,tgt){</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># s: current state</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tgt: winning state</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">min</span>(s, tgt<span class="sc">-</span>s),<span class="dv">1</span>) <span class="co"># I've taken 0 out as a possible stake because it appears to not be in the lisp code nor in the figures</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>value_estimate <span class="ot">&lt;-</span> <span class="cf">function</span>(s, a, p, Vs, tgt){</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get the expected value of the state (s), action (a) pairing</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Kwargs:</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- s [int, 1] - value denoting what state you are in</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- a [int, 1] - which action/stake are you performing?</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- p [%f, 1] - probability of heads in coin toss</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- Vs [vec, 1, nStates] - vector of state values, to retrieve value of</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#             next state, given action</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- tgt [int, 1] - target state</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># what are the two states you can reach, given s and a?</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  s_dashes <span class="ot">=</span> <span class="fu">c</span>(s<span class="sc">-</span>a, s<span class="sc">+</span>a) <span class="co"># lose v win</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  rs <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(s_dashes))</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="do">###  rs[s_dashes == tgt] &lt;- 1 - actually, don't need this line, because you get 0 for making the transition, and only get a 1 for reaching V(s) == 100</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># keeping this the same to match the equation, although effectively, r can be dropped cos its</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># always zeros</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get r + future value</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> rs <span class="sc">+</span> Vs[s_dashes<span class="sc">+</span><span class="dv">1</span>] <span class="co"># +1 to idx-ing because we added the 0 and 100 states</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(values) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"lose"</span>, <span class="st">"win"</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">*</span>values[<span class="st">"lose"</span>] <span class="sc">+</span> p<span class="sc">*</span>values[<span class="st">"win"</span>]</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  est</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>value_update <span class="ot">&lt;-</span> <span class="cf">function</span>(s, p, tgt, Vs){</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># given that I have entered a state, perform the value update function</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># i.e. V(s) &lt;- max_a sum_s',r etc...</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now that I have entered a state, what are the actions I can take in this state?</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  as <span class="ot">&lt;-</span> <span class="fu">get_actions</span>(s,tgt)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># for each s,a pairing, compute the expected value of that state action pairing</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  value_ests <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(as, value_estimate, <span class="at">s=</span>s, <span class="at">p=</span>p, <span class="at">Vs=</span>Vs, <span class="at">tgt=</span>tgt))</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(value_ests) <span class="ot">&lt;-</span> <span class="fu">paste</span>(as)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now take the max value, taking </span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  max_a <span class="ot">&lt;-</span> <span class="fu">min</span>(value_ests[value_ests <span class="sc">==</span> <span class="fu">max</span>(value_ests)])</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  max_a <span class="co"># returns the value estimate, named by the stake</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="making-it-go" class="level2">
+<h2 class="anchored" data-anchor-id="making-it-go">Making it go</h2>
+<p>Now I have the above functions I am ready to implement a function that runs the algorithm and produces some plots:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>run_value_iteration <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, states, Vs, p, tgt, policy){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># run the value iteration algorithm and produce fig 4.3</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- theta [%f, 1] convergence criteria</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- states [int, 1, nstates] the states the agent can visit</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- Vs [int, 1, nstates+2] the values of the states the agent can get to (includes 0 and 1)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- p [f, 1] probability of heads</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- tgt [int, 1] winning state</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- policy [int, 1, nstates] outputs a policy of most valuable arguments</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># -- break_ties [str, max, min or rand] method to break ties among equally valued options</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  delta_crit <span class="ot">=</span> <span class="cn">FALSE</span> <span class="co"># this means that delta is yet to reach less than theta</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="sc">!</span>delta_crit){ <span class="co"># while delta is larger than theta</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    delta <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># set delta to zero</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (istate <span class="cf">in</span> states){ <span class="co"># cycle through states</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      istate_idx <span class="ot">=</span> istate <span class="sc">+</span> <span class="dv">1</span> <span class="co"># +1 because we added states 0 and 100 to the Vs vector</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      v <span class="ot">&lt;-</span> Vs[istate_idx] <span class="co"># </span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      update <span class="ot">&lt;-</span> <span class="fu">value_update</span>(istate, p, tgt, Vs)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      Vs[istate_idx] <span class="ot">&lt;-</span> update</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      <span class="co"># now get the max prediction error</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>      delta <span class="ot">&lt;-</span> <span class="fu">max</span>(delta, <span class="fu">abs</span>(v <span class="sc">-</span> Vs[istate_idx]))</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    } <span class="co"># end states loop</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (delta <span class="sc">&lt;</span> theta) delta_crit <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  } <span class="co"># end delta_crit test</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now get the policy</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (istate <span class="cf">in</span> states){</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># work out possible actions given the state</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    as <span class="ot">&lt;-</span> <span class="fu">get_actions</span>(istate,tgt)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># now work out s', given win or loss</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    loss <span class="ot">&lt;-</span> istate <span class="sc">-</span> as </span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    wins <span class="ot">&lt;-</span> istate <span class="sc">+</span> as</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get the expected value of each s'</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    stake_values <span class="ot">&lt;-</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x,y,p) (<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">*</span>Vs[x<span class="sc">+</span><span class="dv">1</span>] <span class="sc">+</span> p<span class="sc">*</span>Vs[y<span class="sc">+</span><span class="dv">1</span>], loss, wins, <span class="at">MoreArgs =</span> <span class="fu">list</span>(<span class="at">p=</span>p))</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(which(stake_values == max(stake_values)))</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    policy[istate] <span class="ot">=</span> <span class="fu">which</span>(stake_values <span class="sc">==</span> <span class="fu">max</span>(stake_values))[<span class="dv">1</span>]</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">99</span>, <span class="at">y=</span>Vs[<span class="dv">1</span><span class="sc">:</span><span class="dv">99</span><span class="sc">+</span><span class="dv">1</span>], <span class="at">type=</span><span class="st">"l"</span>, <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">xlab=</span><span class="st">"Capital"</span>, <span class="at">ylab =</span> <span class="st">"Value Estimates"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">99</span>, <span class="at">y=</span>policy, <span class="at">type=</span><span class="st">"l"</span>, <span class="at">col=</span><span class="st">"green"</span>, <span class="at">xlab=</span><span class="st">"Capital"</span>, <span class="at">ylab =</span> <span class="st">"Value Estimates"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">50</span>))</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="key-questions" class="level2">
+<h2 class="anchored" data-anchor-id="key-questions">Key questions</h2>
+<ol type="1">
+<li>The first is what the shape of the optimal policy functions may be like, depending on how you break ties for equally values actions. Below are the results for when you break ties taking the first of the max valued options</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_value_iteration</span>(theta, states, Vs, p, tgt, policy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="4-3_gambling-problem_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Solve the problem for <span class="math inline">\(p_h = 0.25\)</span> and <span class="math inline">\(p_h = 0.55\)</span></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_value_iteration</span>(theta, states, Vs, <span class="at">p =</span> <span class="fl">0.25</span>, tgt, policy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="4-3_gambling-problem_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_value_iteration</span>(theta, states, Vs, <span class="at">p =</span> <span class="fl">0.55</span>, tgt, policy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="4-3_gambling-problem_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
